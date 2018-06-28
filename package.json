@@ -1,43 +1,67 @@
 {
-    "name": "gotodef",
-    "displayName": "GoToDef",
-    "description": "Go to Definication",
-    "version": "0.0.1",
-    "publisher": "amyl",
-    "engines": {
-        "vscode": "^1.21.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.goToDef"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.goToDef",
-            "title": "Go to definition"
-        }],
-        "menus": {
-            "editor/context": [
-                {
-                    "command": "extension.goToDef",
-                    "when":"editorHasSelection && editorLangId==markdown",
-                    "group": "navigation"
-                }
-            ]
-        }
-    },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "eslint": "^4.11.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    }
+	"name": "markdown-peek",
+	"displayName": "Markdown Peek",
+	"description": "Allow peeking strings as definitions from Markdown code.  Allows peek and goto definition.",
+	"license": "MIT",
+	"keywords": [
+		"peek",
+		"definition",
+		"file",
+		"angular"
+	],
+	"version": "1.0.0",
+	"publisher": "amyl",
+	"engines": {
+		"vscode": "^0.10.6"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./extension",
+	"contributes": {
+		"commands": [
+		],
+		"menus": {
+		},
+		"configuration": {
+			"type": "object",
+			"title": "File Peek extension configuration",
+			"properties": {
+				"file_peek.activeLanguages": {
+					"type": "array",
+					"default": [
+						"markdown"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "A list of vscode language names where the extension should be used."
+				},
+				"file_peek.searchFileExtensions": {
+					"type": "array",
+					"default": [
+						"md"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "A list of extensions that should be tried for finding peeked files.  These are tried in order as further extensions of the potential file name and also as alternative file endings instead of the existing file extension (if available)."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"devDependencies": {
+        "nak":"0.3.3",
+		"typescript": "^1.8.10",
+		"vsce": "^1.5.0",
+		"vscode": "^0.11.13"
+	}
 }
