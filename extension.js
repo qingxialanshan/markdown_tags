@@ -69,19 +69,17 @@ var PeekFileDefinitionProvider = (function () {
     PeekFileDefinitionProvider.prototype.provideDefinition = function (document, position, token) {
         // todo: make this method operate async
         var working_dir = path.dirname(document.fileName);
-        var word = document.getText(document.getWordRangeAtPosition(position));
+        //var word = document.getText(document.getWordRangeAtPosition(position));
+        //var editor=vscode.window.activeTextEditor
+        //var word=document.getText(document.getWordRangeAtPosition(editor.selection.active))
         var line = document.lineAt(position);
+        var uuid = line.text.split(":")[1];
+        var tpid = line.text.split(":")[2];
         console.log('====== peek-file definition lookup ===========');
-        console.log('word: ' + word);
-        console.log('line: ' + line.text);
+        console.log('uuid: ' + uuid);
+        console.log('tpid: ' + tpid);
 
-        var module = path.join(require.resolve('nak'), "../../bin/nak");
-        var pattern = "::uuid::"+word;
-        var cmd = "node "+module+" --ackmate -G \"*"+path.extname(document.fileName)+"\" -d \"*node_modules*\" \""+pattern+"\" "+path.join(document.fileName,"../");
-
-        console.log(cmd);
-
-        return search_1.definitionSearch(document, word).then(function(location){
+        return search_1.definitionSearch(document, uuid, tpid).then(function(location){
             console.log(location);
             return new vscode.Location(vscode.Uri.file(location.fname),new vscode.Position(parseInt(location.line_num),0));
             //return new vscode.Location(vscode.Uri.file(path.join(working_dir,"spec.md")),new vscode.Position(parseInt(location.line_num),0));
